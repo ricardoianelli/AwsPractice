@@ -8,7 +8,7 @@ def put_item(table, body):
         'courseId': body["courseId"],
         'courseName': body["courseName"],
         'teacherName': body["teacherName"],
-        'studendId': body["studendId"],
+        'studentId': body["studentId"],
         'studentName': body["studentName"],
     }
     
