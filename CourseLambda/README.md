@@ -3,12 +3,22 @@
 </h1>
 
 <h3 align="center">
-    🚧 Under construction! 🚧
+    Serverless CRUD API
 </h3>
 
 
 ## 📚 About 📚
+For now, I'm just sharing the Lambda code for a serverless API with CRUD functionality on a DynamoDB table.
+In the future, I'll share yaml files used to create infrastructure as a code with CloudFormation.
 
+- Information about DynamoDB table:  
+  - Partition Key: courseId (String)
+  - Sort Key: studentId (String)
+  - Index: CourseName-index
+    - Index Partition Key: courseName (String)
+
+- Information about Cognito:
+  - No special settings, just create a new User Pool, Users, etc. 
 
 ## 🏛️ Diagram 🏛️
 ![Basic Architecture Diagrams](CourseLambdaDiagrams.png "Basic Architecture")
