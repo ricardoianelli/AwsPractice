@@ -1,0 +1,89 @@
+Description:  This template deploys an EC2 instance in a specific VPC and subnet.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that is prefixed to resource names
+    Type: String
+    Default: Production
+    AllowedValues:
+      - Development
+      - Test
+      - Staging
+      - Production
+
+  VpcStackName:
+    Description: Name of the VPC stack
+    Type: String
+    Default: MyVPC
+
+  AmazonImageId:
+    Description: The AMI used to create this instance
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Mappings:
+  InstanceTypeMap:
+    us-east-1:
+      Development: t2.nano
+      Test: t2.nano
+      Staging: t2.micro
+      Production: t2.micro
+    us-east-2:
+      Development: t2.nano
+      Test: t2.nano
+      Staging: t2.micro
+      Production: t2.micro
+    us-east-3:
+      Development: t2.nano
+      Test: t2.nano
+      Staging: t2.micro
+      Production: t2.micro
+
+Resources:
+  DefaultKeyPair:
+    Type: "AWS::EC2::KeyPair"
+    Properties:
+      KeyName: DefaultKeyPair
+
+  EC2PublicInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      ImageId: !Ref AmazonImageId
+      KeyName: !Ref DefaultKeyPair
+      SubnetId: !ImportValue
+        Fn::Sub: "${VpcStackName}-PublicSubnet1"
+      InstanceType: 
+        !FindInMap [InstanceTypeMap, !Ref "AWS::Region", !Ref EnvironmentName]
+      SecurityGroupIds: 
+        - !ImportValue 
+            Fn::Sub: "${VpcStackName}-PublicSecurityGroup"
+      UserData:
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash
+            sudo -s
+            yum update -y
+            yum install -y httpd
+            service httpd start
+            echo "<h1>Hello World from $(hostname -f)</h1>" > /var/www/html/index.html
+
+  InstanceElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref EC2PublicInstance
+      Tags:
+        - Key: Name
+          Value: !Join ["-", [InstanceElasticIP, !Ref EnvironmentName]]
+
+Outputs:
+  InstanceURL:
+    Value: !Sub http://${InstanceElasticIP}
+    Description: Instance URL
+
+  InstanceARN:
+    Value: !Ref EC2PublicInstance
+    Export:
+      Name: !Sub ${AWS::StackName}-EC2PublicInstance
+    
