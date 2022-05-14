@@ -36,4 +36,3 @@ Outputs:
   SubscriptionArn:
     Value: !Ref MyEmailSubscription
     Description: Topic Subscription ARN
-
