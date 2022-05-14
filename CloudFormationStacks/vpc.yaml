@@ -7,6 +7,11 @@ Description:  This template deploys a VPC, with a pair of public and private sub
   and default routes for them in the private subnets.
 
 Parameters:
+  VPCBaseName:
+    Description: Base name of the VPC
+    Type: String
+    Default: VPC
+
   EnvironmentName:
     Description: An environment name that is prefixed to resource names
     Type: String
@@ -56,7 +61,7 @@ Resources:
       EnableDnsHostnames: true
       Tags:
         - Key: Name
-          Value: !Ref EnvironmentName
+          Value: !Join ["-", [!Ref VPCBaseName, !Ref EnvironmentName]]
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -234,17 +239,16 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "public-instances-sg"
-      GroupDescription: "Security group allowing access from the internet on port 80"
+      GroupDescription: "Security group allowing access from the internet gateway on ports 80 and 22"
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
         - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
+          FromPort: 22
+          ToPort: 22
           CidrIp: 0.0.0.0/0
 
   PrivateSecurityGroup:
@@ -261,6 +265,8 @@ Outputs:
   VPC:
     Description: A reference to the created VPC
     Value: !Ref VPC
+    Export:
+      Name: !Sub ${AWS::StackName}-VPC
 
   PublicSubnets:
     Description: A list of the public subnets
@@ -273,31 +279,47 @@ Outputs:
   PublicSubnet1:
     Description: A reference to the public subnet in the 1st Availability Zone
     Value: !Ref PublicSubnet1
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnet1
 
   PublicSubnet2:
     Description: A reference to the public subnet in the 2nd Availability Zone
     Value: !Ref PublicSubnet2
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnet2
 
   PublicSubnet3:
     Description: A reference to the public subnet in the 3nd Availability Zone
     Value: !Ref PublicSubnet3
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnet3
 
   PrivateSubnet1:
     Description: A reference to the private subnet in the 1st Availability Zone
     Value: !Ref PrivateSubnet1
+    Export:
+      Name: !Sub ${AWS::StackName}-PrivateSubnet1
 
   PrivateSubnet2:
     Description: A reference to the private subnet in the 2nd Availability Zone
     Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub ${AWS::StackName}-PrivateSubnet2
 
   PrivateSubnet3:
     Description: A reference to the private subnet in the 3nd Availability Zone
     Value: !Ref PrivateSubnet3
+    Export:
+      Name: !Sub ${AWS::StackName}-PrivateSubnet3
 
   PublicSecurityGroup:
     Description: Security group allowing access from the internet on port 80
     Value: !Ref PublicSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSecurityGroup
 
   PrivateSecurityGroup:
     Description: Security group allowing access from the public-instances-sg
     Value: !Ref PrivateSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-PrivateSecurityGroup
