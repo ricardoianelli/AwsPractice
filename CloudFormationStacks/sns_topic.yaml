@@ -1,0 +1,39 @@
+Description: This template deploy a SNS Topic with an email subscription.
+
+Parameters:
+  TopicName:
+    Description: Name of the created Topic
+    Type: String
+    Default: MyTopic
+
+  SubscriptionEmail:
+    Description: An email to be subscribed to the created Topic
+    Type: String
+    Default: myemail@myprovider.com
+
+Resources:
+  MySNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Ref TopicName
+  
+  MyEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties: 
+      Endpoint: !Ref SubscriptionEmail
+      Protocol: "email"
+      TopicArn: !Ref MySNSTopic
+
+Outputs:
+  TopicArn:
+    Value: !Ref MySNSTopic
+    Description: Topic ARN
+
+  TopicName:
+    Value: !GetAtt MySNSTopic.TopicName
+    Description: Topic Name
+
+  SubscriptionArn:
+    Value: !Ref MyEmailSubscription
+    Description: Topic Subscription ARN
+
