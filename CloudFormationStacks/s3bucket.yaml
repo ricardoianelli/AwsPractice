@@ -1,4 +1,4 @@
-Description: This template deploy a new bucket in the S3 bucket and attach it to an existing topic with an email subscription, so that every time a new file is uploaded to the bucket, an email is sent to the topic subscribers. Also, one default subscriber is included.
+Description: This template deploy a new bucket on S3 that notify an SNS topic on each file upload.
 
 Parameters:
   BucketName:
