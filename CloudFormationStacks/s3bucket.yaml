@@ -1,0 +1,40 @@
+Description: This template deploy a new bucket in the S3 bucket and attach it to an existing topic with an email subscription, so that every time a new file is uploaded to the bucket, an email is sent to the topic subscribers. Also, one default subscriber is included.
+
+Parameters:
+  BucketName:
+    Type: String
+    AllowedPattern: ^[a-z0-9_\-]+$ # Bucket name cannot contain uppercase characters
+
+  TopicArn:
+    Description: ARN of the existing topic
+    Type: String
+    MinLength: 12 #Min characters to have arn:aws:sns:...
+    
+Resources:
+  SourceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      NotificationConfiguration:
+        TopicConfigurations:
+          - Event: s3:ObjectCreated:*
+            Topic: !Ref TopicArn
+            
+  SNSTopicPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 's3.amazonaws.com'
+            Action: sns:Publish
+            Resource: !Ref TopicArn
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !Join ["", ['arn:aws:s3:::', !Ref BucketName]]
+              StringEquals:
+                aws:SourceAccount: !Ref 'AWS::AccountId'
+      Topics:
+        - !Ref TopicArn
