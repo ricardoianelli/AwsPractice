@@ -8,8 +8,8 @@
 
 
 ## 📚 About 📚
-For now, I'm just sharing the Lambda code for a serverless API with CRUD functionality on a DynamoDB table.
-In the future, I'll share yaml files used to create infrastructure as a code with CloudFormation.
+This is the Lambda code for a serverless API with CRUD functionality on a DynamoDB table.
+In the future I may share a full guide to build that using both CDK for Infrastructure as Code and the Lambda functions for the serverless.
 
 - Information about DynamoDB table:  
   - Partition Key: courseId (String)
