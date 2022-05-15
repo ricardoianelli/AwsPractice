@@ -32,7 +32,7 @@ Resources:
             Action: sns:Publish
             Resource: !Ref TopicArn
             Condition:
-              ArnEquals:
+              ArnLike:
                 aws:SourceArn: !Join ["", ['arn:aws:s3:::', !Ref BucketName]]
               StringEquals:
                 aws:SourceAccount: !Ref 'AWS::AccountId'
