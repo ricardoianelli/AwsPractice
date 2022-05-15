@@ -1,14 +1,24 @@
-# Welcome to your CDK C# project!
+<h1 align="center">
+    ☁️💻 Simple Bucket with CDK 💻☁️
+</h1>
 
-This is a blank project for CDK development with C#.
+<h3 align="center">
+    Using C# and .Net 3.1
+</h3>
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
-It uses the [.NET Core CLI](https://docs.microsoft.com/dotnet/articles/core/) to compile and execute your project.
+## 📚 About 📚
+Code needed to create a bucket using CDK (and CloudFormation under the hood).
 
-## Useful commands
+What is does is that this C# code generates a JSON template that CloudFormation understands, and using Node.Js it somehow get's uploaded there. I still don't understand exactly all the underlying process, but given the timebox I have, I had to postpone that deep dive adventure.
 
-* `dotnet build src` compile this app
-* `cdk deploy`       deploy this stack to your default AWS account/region
-* `cdk diff`         compare deployed stack with current state
-* `cdk synth`        emits the synthesized CloudFormation template
+
+## 🚧 Contributing 🚧
+If you see a potential improvement in coding, structure or best practices, please, let me know. I'm here to learn! 
+
+If you want to contribute, don't be shy! Open a pull request and let's create something better together!
+
+## Show your support
+
+Give a ⭐️ if this repository helped you!
+
