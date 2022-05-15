@@ -15,7 +15,7 @@ I may be able to help someone who also wants to do the same. With time I will be
 
 ### Contents so far:
 - [API Gateway + Cognito + Lambda + DynamoDB](https://github.com/ricardoianelli/AwsPractice/blob/main/CourseLambda)
-- [IaC using Stack Templates with CloudFormation](https://github.com/ricardoianelli/AwsPractice/blob/main/CloudFormationStack)
+- [IaC using Stack Templates with CloudFormation](https://github.com/ricardoianelli/AwsPractice/tree/main/CloudFormationStacks)
 - [IaC using CDK and C#](https://github.com/ricardoianelli/AwsPractice/tree/main/CDK)
 
 ## 🚧 Contributing 🚧
