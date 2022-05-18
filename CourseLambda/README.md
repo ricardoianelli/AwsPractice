@@ -20,7 +20,7 @@ In the future I may share a full guide to build that using both CDK for Infrastr
 - Information about Cognito:
   - No special settings, just create a new User Pool, Users, etc. 
 
-## 🏛️ Diagram 🏛️
+## 🏛️ Architecture 🏛️
 ![Basic Architecture Diagrams](CourseLambdaDiagrams.png "Basic Architecture")
 
 ## 🚧 Contributing 🚧
